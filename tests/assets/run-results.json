@@ -1,0 +1,5524 @@
+[
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "03543336-c482-5cef-bafb-75974354d1d6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_0.1_count_3.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/3ea024134597bf8950ca7f00e153e5c4003c5e7aca1c307e2b56e7e0a9bf92a3/depth_0.1_count_3.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_0.1_count_3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "3.456"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "0.1"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/03543336-c482-5cef-bafb-75974354d1d6/workspace/results"
+      }
+    }
+  ],
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "2412e1f1-6ae1-5ebb-9399-66e85e8615b4"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_0.1_count_6.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/857e07522a34bbc5be33a052b517a71a487df4fc5754e51733354b16297b089b/depth_0.1_count_6.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_0.1_count_6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "6.911999"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "0.1"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/2412e1f1-6ae1-5ebb-9399-66e85e8615b4/workspace/results"
+      }
+    }
+  ],
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "4a3e25e3-4cdd-590a-8a3b-9ab07a33161c"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_0.5_count_3.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/478d18d1d760db6fc688f5ac6ee5a52de87ef5c3d3e8b1f3f2db6864a9f65325/depth_0.5_count_3.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_0.5_count_3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "17.279998"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "0.5"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/4a3e25e3-4cdd-590a-8a3b-9ab07a33161c/workspace/results"
+      }
+    }
+  ],
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "0a63f022-336c-57dd-b27d-d1cd5da57312"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_0.3_count_6.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/f16603723fe716da5c392c2f97d17caaaa5f692d8b93b73589df78a91dc82b7a/depth_0.3_count_6.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_0.3_count_6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "20.735999"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "0.3"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/0a63f022-336c-57dd-b27d-d1cd5da57312/workspace/results"
+      }
+    }
+  ],
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "b825c8c4-64a7-5827-813e-e7c6d2bcf769"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_0.7_count_6.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/170963276f7bba9fd6193ec7ae263746b05b68d0e22a232b9794ec0b0acbf7f0/depth_0.7_count_6.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_0.7_count_6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "48.383995"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "0.7"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/b825c8c4-64a7-5827-813e-e7c6d2bcf769/workspace/results"
+      }
+    }
+  ],
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "287d4de5-95ef-5297-bde9-595008ce91d2"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_0.6_count_3.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/6cfe6bf1d2253fe084a3daf88d34c18698b12cfc12fe44ca2b34f0f3c75b2b9e/depth_0.6_count_3.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_0.6_count_3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "20.735999"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "0.6"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/287d4de5-95ef-5297-bde9-595008ce91d2/workspace/results"
+      }
+    }
+  ],
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "a44f517f-558d-52b7-82b2-d95e885ceafb"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_0.9_count_3.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/bf8691e8e1ac902684e47f74d02b887fa19683d44ed8443b8d02fe09593c675d/depth_0.9_count_3.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_0.9_count_3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "31.103996"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "0.9"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/a44f517f-558d-52b7-82b2-d95e885ceafb/workspace/results"
+      }
+    }
+  ],
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "751faac2-5046-5b86-b2a8-06536e437ada"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_1.1_count_6.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/822137034c38a4ae7e272d89446078025bfd484f5e467fed41f3214a13d49014/depth_1.1_count_6.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_1.1_count_6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "76.031995"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "1.1"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/751faac2-5046-5b86-b2a8-06536e437ada/workspace/results"
+      }
+    }
+  ],
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "2bdddb86-e873-5661-8681-0b2e757a7fba"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_1.1_count_3.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/c93c3f084d8644cea5f735e6626f4f51e9c4ce6e05c80880e494ee3c0760c2fd/depth_1.1_count_3.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_1.1_count_3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "38.015997"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "1.1"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/2bdddb86-e873-5661-8681-0b2e757a7fba/workspace/results"
+      }
+    }
+  ],
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "ef5c16da-fd89-5912-80ac-747938617e07"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_1_count_6.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/e8eac8fc16ad7a9f4fd850fc01ad3999307640242fedd0de81c582b14b80787e/depth_1_count_6.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_1_count_6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "69.119994"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "1"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/ef5c16da-fd89-5912-80ac-747938617e07/workspace/results"
+      }
+    }
+  ],
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "ce76c104-eb17-5f24-b279-f22c6a36fd70"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_0.3_count_3.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/e2036f10daef4c46c3820764a06377501b019910f63690cea1ce681445993e85/depth_0.3_count_3.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_0.3_count_3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "10.367999"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "0.3"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/ce76c104-eb17-5f24-b279-f22c6a36fd70/workspace/results"
+      }
+    }
+  ],
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "57ce73bc-9427-51c6-9a72-b7bc614c5bf8"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_0.2_count_6.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/0b417db856b6fdfe6af53a35c13042cbe2e083f3162d475980452b97a93cf9c3/depth_0.2_count_6.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_0.2_count_6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "13.823999"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "0.2"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/57ce73bc-9427-51c6-9a72-b7bc614c5bf8/workspace/results"
+      }
+    }
+  ],
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "41e2069d-b4b9-588e-b47f-2a9a055a8a2b"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_0.6_count_6.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/07ff5bbc64aa9d22133e6bdc464ce415d6721fe745b89d2ec9f73e1e65ea3c64/depth_0.6_count_6.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_0.6_count_6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "41.471998"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "0.6"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/41e2069d-b4b9-588e-b47f-2a9a055a8a2b/workspace/results"
+      }
+    }
+  ],
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "f0696b43-4cce-5ce9-a4b0-04356c38fb0e"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_0.8_count_3.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/28b929fdf207f8f49d9948788f6dd1ea74aab029f6b6e1b86558815ec114befb/depth_0.8_count_3.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_0.8_count_3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "27.647998"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "0.8"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/f0696b43-4cce-5ce9-a4b0-04356c38fb0e/workspace/results"
+      }
+    }
+  ],
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fdb53449-bd79-501b-b9cc-aec0ab0e4731"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_0.4_count_6.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/9bb9c8fde2c348be04ab850cb7a506c133308363a87ad18a47b9dca67b457770/depth_0.4_count_6.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_0.4_count_6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "27.647998"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "0.4"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/fdb53449-bd79-501b-b9cc-aec0ab0e4731/workspace/results"
+      }
+    }
+  ],
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "2cc4accc-32f1-5dd9-b0b0-30b165f256c6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_0.5_count_6.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/534f9fee6b40fe8f5e1a27de4c88b07ef1b6b411a7bf77835494ce43a81934e6/depth_0.5_count_6.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_0.5_count_6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "34.559997"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "0.5"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/2cc4accc-32f1-5dd9-b0b0-30b165f256c6/workspace/results"
+      }
+    }
+  ],
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "8de6512f-655c-5558-9545-646665ed2b03"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_0.9_count_6.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/9dbf0c9d156558606b1c3b1e6d609c33a7557c1b71e6fa8885209212fd3d047d/depth_0.9_count_6.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_0.9_count_6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "62.207993"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "0.9"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/8de6512f-655c-5558-9545-646665ed2b03/workspace/results"
+      }
+    }
+  ],
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "149e5f41-9bf0-5011-aaf9-72c944af819c"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_0.4_count_3.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/5786cadd2645780b162eebed90a9abf4cfb59e414b226b1951261487b896b655/depth_0.4_count_3.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_0.4_count_3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "13.823999"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "0.4"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/149e5f41-9bf0-5011-aaf9-72c944af819c/workspace/results"
+      }
+    }
+  ],
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "219a7ecc-cfd9-553d-a855-4b0963c5f093"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_0.8_count_6.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/861529868c2fb4338cd55c646978283164b2bb2836640f33a86b82394f6282c0/depth_0.8_count_6.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_0.8_count_6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "55.295996"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "6"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "0.8"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/219a7ecc-cfd9-553d-a855-4b0963c5f093/workspace/results"
+      }
+    }
+  ],
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "89800392-7169-5097-98ef-0882133137ca"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_1_count_3.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/e161d8259ea657151c72aed40b033060f335ad63f84dc56e21f996b9785456d2/depth_1_count_3.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_1_count_3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "34.559997"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "1"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/89800392-7169-5097-98ef-0882133137ca/workspace/results"
+      }
+    }
+  ],
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "f633e0ba-bed7-57ea-a61b-35c8c3d7f025"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_0.7_count_3.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/9a82e74d46dc24528771c3ff214c4a1035a0fe6009febf941680b0a0b93f5c44/depth_0.7_count_3.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_0.7_count_3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "24.191997"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "0.7"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/f633e0ba-bed7-57ea-a61b-35c8c3d7f025/workspace/results"
+      }
+    }
+  ],
+  [
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "job-id",
+      "description": "The ID of the job that scheduled the run",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "fcd52e87-510c-447e-acdd-9f89fd696408"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-id",
+      "description": "The ID of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "4c7d1618-6ab4-5720-897c-a964bfe6cf1d"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "run-status",
+      "description": "The status of the run this result row should be associated with",
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "Succeeded"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"grid-filter\", \"value\": \"*\"}"
+      },
+      "name": "grid-filter",
+      "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+      "default": "*",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "grid_filter",
+          "description": "Text for a grid identifer or a pattern to filter the sensor grids of the model that are simulated. For instance, first_floor_* will simulate only the sensor grids that have an identifier that starts with first_floor_. By default, all grids in the model will be simulated.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "*",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "*"
+    },
+    {
+      "type": "StepFileInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobPathArgument\", \"annotations\": {}, \"name\": \"model\", \"source\": {\"type\": \"ProjectFolder\", \"annotations\": {}, \"path\": \"depth_0.2_count_3.hbjson\"}}"
+      },
+      "name": "model",
+      "description": "A Honeybee model in HBJSON file format.",
+      "default": null,
+      "alias": [
+        {
+          "type": "DAGGenericInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "A Honeybee Model to simulate or the path to a HBJSON file of a Model. This can also be the path to a HBpkl file, though this is only recommended for cases where the model is extremely large.",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "python",
+              "module": "pollination_handlers.inputs.model",
+              "function": "model_to_json",
+              "index": 0
+            },
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "HBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        },
+        {
+          "type": "DAGLinkedInputAlias",
+          "annotations": {},
+          "name": "model",
+          "description": "This input links the model to Rhino model.",
+          "platform": [
+            "rhino"
+          ],
+          "handler": [
+            {
+              "type": "IOAliasHandler",
+              "annotations": {},
+              "language": "csharp",
+              "module": "Pollination.RhinoHandlers",
+              "function": "RhinoHBModelToJSON",
+              "index": 0
+            }
+          ],
+          "default": null,
+          "required": true,
+          "spec": null
+        }
+      ],
+      "required": true,
+      "spec": null,
+      "path": null,
+      "extensions": [
+        "json",
+        "hbjson"
+      ],
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "inputs/model/31ab6009ba2bf1859e3d44c765bb1759ea5470d70a35fa09615d0c9ae3fe6f74/depth_0.2_count_3.hbjson"
+      }
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "name",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "depth_0.2_count_3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"radiance-parameters\", \"value\": \"-ab 2 -aa 0.1 -ad 2048 -ar 64\"}"
+      },
+      "name": "radiance-parameters",
+      "description": "The radiance parameters for ray tracing",
+      "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+      "alias": [
+        {
+          "type": "DAGStringInputAlias",
+          "annotations": {},
+          "name": "radiance_par",
+          "description": "Text for the radiance parameters to be used for ray tracing. (Default: -ab 2 -aa 0.1 -ad 2048 -ar 64).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": "-ab 2 -aa 0.1 -ad 2048 -ar 64",
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": null,
+      "value": "-ab 2 -aa 0.1 -ad 2048 -ar 64"
+    },
+    {
+      "type": "StepIntegerInput",
+      "annotations": {
+        "queenbee.job/argument": "{\"type\": \"JobArgument\", \"annotations\": {}, \"name\": \"sensor-count\", \"value\": \"200\"}"
+      },
+      "name": "sensor-count",
+      "description": "The maximum number of grid points per parallel execution",
+      "default": 200,
+      "alias": [
+        {
+          "type": "DAGIntegerInputAlias",
+          "annotations": {},
+          "name": "sensor_count",
+          "description": "Positive integer for the number of sensor grid points per parallel execution. Lower numbers will result in sensor grids being split into more pieces and, since each grid piece is run by a separate worker, this can mean a faster simulation on machines with several CPUs. However ,If the number is too low, the overhad of splitting the grid will not be worth the time gained through parallelization. (Default: 200).",
+          "platform": [
+            "grasshopper"
+          ],
+          "handler": [],
+          "default": 200,
+          "required": false,
+          "spec": null
+        }
+      ],
+      "required": false,
+      "spec": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "value": 200
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_area",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "6.911999"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_count",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "3"
+    },
+    {
+      "type": "StepStringInput",
+      "annotations": {},
+      "name": "shade_depth",
+      "description": null,
+      "default": null,
+      "alias": [],
+      "required": true,
+      "spec": null,
+      "value": "0.2"
+    },
+    {
+      "type": "StepFolderOutput",
+      "annotations": {},
+      "name": "results",
+      "description": "Folder with raw result files (.res) that contain daylight factor values for each sensor.",
+      "path": "",
+      "required": true,
+      "source": {
+        "type": "ProjectFolder",
+        "annotations": {},
+        "path": "runs/4c7d1618-6ab4-5720-897c-a964bfe6cf1d/workspace/results"
+      }
+    }
+  ]
+]
