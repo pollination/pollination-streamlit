@@ -2,3 +2,6 @@ pytest
 pylint
 autopep8
 requests-mock
+twine==3.4.1
+wheel==0.36.2
+setuptools==57.0.0
