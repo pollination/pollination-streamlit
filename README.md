@@ -4,7 +4,7 @@ A [Pollination](https://pollination.cloud) extension to facilitate working with
 Pollination in [Streamlit](https://streamlit.io) apps.
 
 
-Many thanks to the Streamlit team for developing [Streamlit app framework](https://github.com/streamlit/)! :ballon: :ballon: :ballon:
+Many thanks to the Streamlit team for developing [Streamlit app framework](https://github.com/streamlit/)! :balloon: :balloon: :balloon:
 
 You can build custom apps for environmental building simulation by bringing the power of
 Pollination and Ladybug Tools to Streamlit apps!
