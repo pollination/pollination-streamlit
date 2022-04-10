@@ -11,12 +11,13 @@ DEFAULT_HOST = 'https://api.pollination.cloud'
 
 class ApiClient():
 
-    def __init__(self, host: str = DEFAULT_HOST, api_token: str = None):
+    def __init__(self, host: str = DEFAULT_HOST, api_token: str = None, jwt_token: str = None):
         if host[-1] == '/':
             host = host[:-1]
 
         self._host = host
         self.api_token = api_token
+        self.jwt_token = jwt_token
 
     @property
     def host(self) -> str:
@@ -27,6 +28,10 @@ class ApiClient():
         if self.api_token is not None:
             return {
                 'x-pollination-token': self.api_token
+            }
+        elif self.jwt_token is not None:
+            return {
+                'Authorization': f'Bearer {self.jwt_token}'
             }
         return {}
 
