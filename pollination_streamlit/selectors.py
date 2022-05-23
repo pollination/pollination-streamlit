@@ -29,7 +29,7 @@ def job_selector(
     url_split = job_url.split('/')
     job_id = url_split[-1]
     project = url_split[-3]
-    owner = url_split[-4]
+    owner = url_split[-5]
 
     return Job(owner, project, job_id, client)
 
@@ -46,6 +46,6 @@ def run_selector(
     run_id = url_split[-1]
     job_id = url_split[-3]
     project = url_split[-5]
-    owner = url_split[-6]
+    owner = url_split[-7]
 
     return Run(owner, project, job_id, run_id, client)
