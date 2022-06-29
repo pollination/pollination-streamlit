@@ -1,9 +1,10 @@
 import pytest
-from queenbee.job import Job as QbJob
 from pollination_streamlit.api.client import ApiClient
 from pollination_streamlit.api.jobs import JobsAPI
 from pollination_streamlit.api.recipes import RecipesAPI
 from pollination_streamlit.api.runs import RunsAPI
+from pollination_streamlit.api.user import UserApi
+from queenbee.job import Job as QbJob
 
 
 @pytest.fixture
@@ -24,6 +25,11 @@ def jobs_api(test_client):
 @pytest.fixture
 def recipes_api(test_client):
     return RecipesAPI(test_client)
+
+
+@pytest.fixture
+def user_api(test_client):
+    return UserApi(test_client)
 
 
 def test_init_api_client(default_host, custom_host, api_token):
@@ -84,3 +90,7 @@ def test_create_job(jobs_api: JobsAPI, create_job, job_id, job_spec: QbJob):
 def test_get_recipe(recipes_api: RecipesAPI, get_recipe, recipe):
     assert recipes_api.get_recipe(
         'ladybug-tools', 'annual-daylight', '0.8.2-viz') == recipe
+
+
+def test_get_auth_user(user_api: UserApi, get_user, user_profile):
+    assert user_api.get_user() == user_profile

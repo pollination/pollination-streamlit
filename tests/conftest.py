@@ -219,3 +219,22 @@ def get_recipe_and_create_job(default_host, recipe, job_spec, job_create_respons
             json=job_create_response
         )
         yield
+
+
+@pytest.fixture
+def user_profile():
+    return {
+        "id": "96c12d05-f1a2-4491-b0cc-c2ed473301b5",
+        "email": "ladybugbot@ladybug.tools",
+        "name": "Ladybug Bot",
+        "username": "ladybugbot",
+        "description": "Beep Boop!",
+        "picture": "https://avatars1.githubusercontent.com/u/38131342"
+    }
+
+
+@pytest.fixture
+def get_user(default_host, user_profile):
+    with requests_mock.Mocker() as m:
+        m.get('/user', json=user_profile)
+        yield
