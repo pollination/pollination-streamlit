@@ -1,12 +1,15 @@
 import pathlib
 import typing as t
 from io import BytesIO
+from uuid import UUID
 
 from queenbee.io.inputs.job import JobArgument, JobPathArgument
 from queenbee.job import Job as QbJob
 from queenbee.job import JobArguments, JobStatus, RunStatus
 from queenbee.recipe import Recipe as QbRecipe
 from queenbee.recipe import RecipeInterface
+
+from pollination_streamlit.api.user import UserApi
 
 from .api.client import ApiClient
 from .api.jobs import JobsAPI
@@ -307,3 +310,43 @@ class Artifact:
 
     def list_children(self) -> t.List['Artifact']:
         return self.job.list_artifacts(self.key)
+
+
+class AuthUser:
+
+    def __init__(self, client: ApiClient) -> None:
+        self.user_api = UserApi(client)
+        self._client = client
+        self._api_object = None
+
+    def __str__(self) -> str:
+        return f'<AuthUser: {self.username}>'
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
+    @property
+    def api_object(self) -> t.Dict[str, t.Any]:
+        if self._api_object is None:
+            self._api_object = self.user_api.get_user()
+        return self._api_object
+
+    @property
+    def id(self) -> UUID:
+        return UUID(self.api_object['id'])
+
+    @property
+    def name(self) -> str:
+        return self.api_object['name']
+
+    @property
+    def username(self) -> str:
+        return self.api_object['username']
+
+    @property
+    def description(self) -> str:
+        return self.api_object['description']
+
+    @property
+    def picture(self) -> str:
+        return self.api_object['picture']
