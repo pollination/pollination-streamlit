@@ -1,12 +1,11 @@
+import os
 import typing as t
 from io import BytesIO
 
 import requests
-from requests import Session
 
-# from ._client_base import ClientBase as Client
-
-DEFAULT_HOST = 'https://api.pollination.cloud'
+DEFAULT_HOST = os.getenv('POLLINATION_API_URL',
+                         'https://api.pollination.cloud')
 
 
 class ApiClient():
@@ -37,7 +36,7 @@ class ApiClient():
 
     @property
     def session(self):
-        s = Session()
+        s = requests.Session()
         s.headers = self.headers
         return s
 
