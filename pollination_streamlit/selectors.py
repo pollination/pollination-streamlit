@@ -1,13 +1,13 @@
 import streamlit as st
 
 from .api.client import ApiClient
-from .authentication import get_jwt_from_browser
+from .authentication import get_jwt
 from .interactors import Job, Run
 
 
 def get_api_client(st_element: st = st) -> ApiClient:
     client = ApiClient()
-    client.jwt_token = get_jwt_from_browser()
+    client.jwt_token = get_jwt()
     if client.jwt_token is None:
         client.api_token = st_element.text_input(
             'Enter Pollination APIKEY', type='password',
