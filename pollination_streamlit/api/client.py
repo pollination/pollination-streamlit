@@ -19,6 +19,38 @@ class ApiClient():
         self.jwt_token = jwt_token
 
     @property
+    def api_token(self) -> str:
+        return self._api_token
+
+    @api_token.setter
+    def api_token(self, value):
+        self._api_token = self._validate_string_input(value)
+
+    @property
+    def jwt_token(self) -> str:
+        return self._jwt_token
+
+    @jwt_token.setter
+    def jwt_token(self, value):
+        self._jwt_token = self._validate_string_input(value)
+
+    @staticmethod
+    def _validate_string_input(value) -> str:
+        if isinstance(value, str):
+            if len(value) == 0:
+                return None
+            else:
+                return value
+        if value is None:
+            return value
+        raise ValueError(
+            f'Expected instance of type str but got: {type(value)}')
+
+    @property
+    def is_authenticated(self) -> bool:
+        return self.api_token is not None or self.jwt_token is not None
+
+    @property
     def host(self) -> str:
         return self._host
 
