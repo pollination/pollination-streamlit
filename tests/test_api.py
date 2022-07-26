@@ -94,3 +94,16 @@ def test_get_recipe(recipes_api: RecipesAPI, get_recipe, recipe):
 
 def test_get_auth_user(user_api: UserApi, get_user, user_profile):
     assert user_api.get_user() == user_profile
+
+
+@pytest.mark.parametrize('api_token,jwt,expected', [
+    ('', '', False),
+    ('foo', None, True),
+    (None, 'jwt-token-string', True),
+    (None, '', False),
+    (None, None, False),
+])
+def test_is_authenticated(test_client: ApiClient, api_token, jwt, expected):
+    test_client.api_token = api_token
+    test_client.jwt_token = jwt
+    assert test_client.is_authenticated == expected
