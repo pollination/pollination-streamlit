@@ -1,6 +1,5 @@
 import base64
 import os
-import re
 import typing as t
 
 import extra_streamlit_components as stx
@@ -16,18 +15,13 @@ def get_manager():
     return stx.CookieManager()
 
 
-def _decode_base64(data, altchars=b'+/'):
+def _decode_base64(data):
     """Decode base64, padding being optional.
 
-    :param data: Base64 data as an ASCII byte string
-    :returns: The decoded byte string.
-
+    data: Base64 data as an ASCII byte string.
     """
-    data = re.sub(rb'[^a-zA-Z0-9%s]+' % altchars, b'', data)  # normalize
-    missing_padding = len(data) % 4
-    if missing_padding:
-        data += b'=' * (4 - missing_padding)
-    return base64.b64decode(data, altchars)
+    # Reference https://stackoverflow.com/a/53389061/4394669
+    return base64.urlsafe_b64decode(data)
 
 
 def _decrypt_cookie(cookie: str):
@@ -83,7 +77,9 @@ def get_jwt() -> t.Optional[str]:
         return _get_jwt_from_auth_proxy(cookie)
     except requests.HTTPError:
         print(
-            "Error fetching JWT from /auth/jwt endpoint. Defaulting to cookie decryption.")
+            "Error fetching JWT from /auth/jwt endpoint. "
+            "Defaulting to cookie decryption."
+        )
         # Fallback to default cookie decryption technique if not using
         # app-auth-proxy > v0.5.0
         return _decrypt_cookie(cookie)
