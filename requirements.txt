@@ -1,5 +1,5 @@
 
-streamlit!=1.19.0,!=1.18.1,!=1.18.1rc1,!=1.18.0
+streamlit>=1.20.0
 extra-streamlit-components>=0.1.53
 requests
 queenbee

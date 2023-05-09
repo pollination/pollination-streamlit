@@ -93,7 +93,7 @@ class RunsDataFrame:
         self._column_meta = meta
 
     @classmethod
-    @st.cache(allow_output_mutation=True)
+    @st.cache_data
     def from_run_results(cls, data: t.List[t.List[dict]]) -> 'RunsDataFrame':
         meta = ColumnMeta()
         df = pd.DataFrame()
