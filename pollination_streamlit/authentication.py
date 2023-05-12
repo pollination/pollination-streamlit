@@ -10,7 +10,6 @@ COOKIE_NAME = os.getenv('COOKIE_NAME', 'pollination-authz')
 PROXY_URL = os.getenv('PROXY_URL', 'http://localhost:8000')
 
 
-@st.cache_data
 def get_manager():
     return stx.CookieManager()
 
