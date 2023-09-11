@@ -110,7 +110,7 @@ class RunsDataFrame:
             sub_df.index = [0]*len(sub_df)
 
             pivot = sub_df.pivot(columns='name', values='value')
-            df = df.append(pivot)
+            df = df._append(pivot)
 
         df.columns.name = None
         df.set_index('run-id', inplace=True)
