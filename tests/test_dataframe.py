@@ -1,5 +1,5 @@
 import pytest
-from pandas.util.testing import assert_frame_equal
+from pandas.testing import assert_frame_equal
 from pollination_streamlit.dataframe import ColumnMeta, RunsDataFrame
 
 

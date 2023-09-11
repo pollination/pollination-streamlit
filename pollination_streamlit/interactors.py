@@ -20,7 +20,10 @@ from .dataframe import RunsDataFrame
 
 class Recipe:
 
-    def __init__(self, owner: str, name: str, tag: str = 'latest', client: ApiClient = ApiClient()):
+    def __init__(self, owner: str,
+                 name: str,
+                 tag: str = 'latest',
+                 client: ApiClient = ApiClient()):
         self.owner = owner
         self.name = name
         self.tag = tag
@@ -43,6 +46,13 @@ class Recipe:
     def _fetch_recipe(self):
         self._api_object = self.recipe_api.get_recipe(
             self.owner, self.name, self.tag)
+
+    def set_project(self, project_slug: str):
+        res = self.recipe_api.set_project(self.owner,
+                                          self.name,
+                                          project_slug,
+                                          self.tag)
+        return res
 
     @property
     def source_url(self) -> str:
