@@ -47,11 +47,12 @@ class Recipe:
         self._api_object = self.recipe_api.get_recipe(
             self.owner, self.name, self.tag)
 
-    def set_project(self, project_slug: str):
-        res = self.recipe_api.set_project(self.owner,
-                                          self.name,
-                                          project_slug,
-                                          self.tag)
+    def add_to_project(self, project_slug: str):
+        res = self.recipe_api.add_to_project(
+            self.owner,
+            self.name,
+            project_slug,
+            self.tag)
         return res
 
     @property

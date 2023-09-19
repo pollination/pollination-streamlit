@@ -15,7 +15,7 @@ class RecipesAPI(APIBase):
         )
         return Recipe.parse_obj(res)
 
-    def set_project(self, owner: str, name: str,
+    def add_to_project(self, owner: str, name: str,
                     project_slug: str, tag: str = 'latest') -> str:
         prj_owner, prj_name = project_slug.split('/')
         res = self.client.post(
