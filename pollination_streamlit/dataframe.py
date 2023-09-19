@@ -110,7 +110,11 @@ class RunsDataFrame:
             sub_df.index = [0]*len(sub_df)
 
             pivot = sub_df.pivot(columns='name', values='value')
-            df = df._append(pivot)
+            try:
+                df = df.append(pivot)
+            except AttributeError:
+                # Pandas 2.0 - see here: https://stackoverflow.com/a/75956237/4394669
+                df = pd.concat([df, pivot])
 
         df.columns.name = None
         df.set_index('run-id', inplace=True)
