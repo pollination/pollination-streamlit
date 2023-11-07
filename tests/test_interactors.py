@@ -2,9 +2,9 @@ from uuid import uuid4
 
 import pytest
 from pandas.testing import assert_frame_equal
-from pollination_streamlit.api.client import ApiClient
-from pollination_streamlit.dataframe import RunsDataFrame
-from pollination_streamlit.interactors import (Artifact, Job, NewJob, Recipe,
+from pollination_io.api.client import ApiClient
+from pollination_io.dataframe import RunsDataFrame
+from pollination_io.interactors import (Artifact, Job, NewJob, Recipe,
                                                Run)
 
 
