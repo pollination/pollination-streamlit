@@ -1,9 +1,9 @@
 import pytest
-from pollination_streamlit.api.client import ApiClient
-from pollination_streamlit.api.jobs import JobsAPI
-from pollination_streamlit.api.recipes import RecipesAPI
-from pollination_streamlit.api.runs import RunsAPI
-from pollination_streamlit.api.user import UserApi
+from pollination_io.api.client import ApiClient
+from pollination_io.api.jobs import JobsAPI
+from pollination_io.api.recipes import RecipesAPI
+from pollination_io.api.runs import RunsAPI
+from pollination_io.api.user import UserApi
 from queenbee.job import Job as QbJob
 
 
