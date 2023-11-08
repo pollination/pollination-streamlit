@@ -1,6 +1,6 @@
 import pytest
 from pandas.testing import assert_frame_equal
-from pollination_io.dataframe import ColumnMeta, RunsDataFrame
+from pollination_streamlit.dataframe import ColumnMeta, RunsDataFrame
 
 
 @pytest.fixture
