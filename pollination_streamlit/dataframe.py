@@ -1,5 +1,4 @@
 import typing as t
-import numpy as np
 import pandas as pd
 from pollination_io.dataframe import ColumnMeta as ColumnMetaIO
 from pollination_io.dataframe import RunsDataFrame as RunsDataFrameIO

@@ -1,9 +1,6 @@
 import os
-import typing as t
-from io import BytesIO
 from pollination_io.api.client import ApiClient as ApiClientIO
 from warnings import warn
-import requests
 
 DEFAULT_HOST = os.getenv('POLLINATION_API_URL',
                          'https://api.pollination.cloud')

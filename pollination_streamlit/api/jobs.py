@@ -1,9 +1,3 @@
-import pathlib
-import typing as t
-from io import BytesIO
-
-from queenbee.job import Job as QbJob
-
 from .client import ApiClient
 from pollination_io.api.jobs import JobsAPI as JobsAPIIO
 from warnings import warn

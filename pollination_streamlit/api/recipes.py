@@ -1,6 +1,5 @@
 
 from pydantic import BaseConfig
-from queenbee.recipe import Recipe
 
 BaseConfig.allow_population_by_field_name = True
 

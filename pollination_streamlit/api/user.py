@@ -1,5 +1,3 @@
-import typing as t
-
 from .client import ApiClient
 from pollination_io.api.user import UserApi as UserAPIIO
 from warnings import warn
