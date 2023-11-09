@@ -12,6 +12,3 @@ class UserApi(UserAPIIO):
              DeprecationWarning, 
              stacklevel=2)
         super().__init__(client=client)
-
-    def get_user(self) -> dict:
-        return self.client.get('/user')

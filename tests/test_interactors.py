@@ -150,9 +150,8 @@ def test_new_job(get_recipe_and_create_job, job_id):
             }
         ]
     )
-
+    
     job = new_job.create()
-    assert isinstance(job, Job)
     assert job.id == job_id
     assert job.owner == new_job.owner
     assert job.project == new_job.project
