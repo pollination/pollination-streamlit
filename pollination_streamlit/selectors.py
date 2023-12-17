@@ -1,30 +1,27 @@
 import streamlit as st
-import binascii
 
 from .api.client import ApiClient
-from .authentication import get_jwt
+from .authentication import get_api_client as _get_api_client
 from .interactors import Job, Run
 
 
 def get_api_client(st_element: st = st) -> ApiClient:
-    client = ApiClient()
-    try:
-        client.jwt_token = get_jwt()
-    except binascii.Error:
-        client.jwt_token = None
+
+    client = _get_api_client()
+
+    if not client.is_authenticated:
         st.warning(
             'The app failed to find your Pollination account information. '
             'Try to refresh the page! If that did not solve the problem, try using '
             'a Pollination API key.'
         )
-
-    if client.jwt_token is None:
         client.api_token = st_element.text_input(
             'Enter Pollination APIKEY', type='password',
             help=':bulb: You only need an API Key to access private projects. '
             'If you do not have a key already go to the settings tab under your '
             'profile to generate one.'
         )
+
     return client
 
 
