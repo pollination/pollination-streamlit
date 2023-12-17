@@ -1,8 +1,8 @@
 import streamlit as st
 
-from .api.client import ApiClient
+from pollination_io.api.client import ApiClient
 from .authentication import get_api_client as _get_api_client
-from .interactors import Job, Run
+from pollination_io.interactors import Job, Run
 
 def get_api_client(st_element: st = st) -> ApiClient:
 
