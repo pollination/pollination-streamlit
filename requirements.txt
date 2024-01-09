@@ -1,6 +1,6 @@
 
 streamlit>=1.20.0
 extra-streamlit-components>=0.1.53
-pollination-io>=1.0.2
+pollination-io>=1.0.3
 requests
 queenbee
