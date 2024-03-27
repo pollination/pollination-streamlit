@@ -8,6 +8,17 @@ def get_api_client(st_element: st = st) -> ApiClient:
 
     client = _get_api_client()
 
+    # fix extra_streamlit_components bug
+    st.markdown(
+    """ 
+    <style>
+        .element-container:has(iframe[height="0"]) { display: block; }
+        .element-container:has(iframe[title="extra_streamlit_components.CookieManager.cookie_manager"]) { display: none; }
+    </style>
+    """,
+        unsafe_allow_html=True,
+    )
+
     if not client.is_authenticated:
         st.warning(
             'The app failed to find your Pollination account information. '
